@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+body{margin:0;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;}
+a{text-decoration:none;}
+@keyframes reveal-up{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+@keyframes pulse-ring{0%{transform:scale(.75);opacity:.65;}80%,100%{transform:scale(1.9);opacity:0;}}
+@media(max-width:820px){
+  .tes-nav-links,.tes-nav-lang{display:none !important;}
+  .tes-hamb{display:flex !important;}
+  .tes-3{grid-template-columns:repeat(2,1fr) !important;}
+  .tes-pad{padding-left:22px !important;padding-right:22px !important;}
+  .tes-foot{grid-template-columns:1fr 1fr !important;gap:32px !important;}
+  .tes-footbar{flex-direction:column !important;align-items:flex-start !important;}
+  .tes-h1{font-size:32px !important;}
+}
+@media(max-width:520px){
+  .tes-foot{grid-template-columns:1fr !important;}
+  .tes-3{grid-template-columns:1fr !important;}
+}
+</style>
+</helmet>
+
+<div style="width:100%;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;">
+
+  <!-- nav -->
+  <div class="tes-pad" style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:18px 46px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid #eef2ef;position:sticky;top:0;z-index:40;">
+    <a href="TES Agribusiness.dc.html" style="display:flex;align-items:center;gap:11px;flex-shrink:0;">
+      <img src="assets/tes-logo.png" alt="TES Agribusiness" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex:0 0 46px;box-shadow:0 4px 14px -5px rgba(20,40,26,.5);">
+      <div style="line-height:1.1;"><div style="font-weight:800;font-size:19px;color:#14241A;white-space:nowrap;">TES Agribusiness</div></div>
+    </a>
+    <div class="tes-nav-links" style="display:flex;gap:20px;font-size:14px;color:#46514a;font-weight:600;flex-shrink:1;white-space:nowrap;order:3;flex-basis:100%;justify-content:center;">
+      <a href="TES Agribusiness.dc.html" style="color:#46514a;">Accueil</a><a href="Blog.dc.html" style="color:#1F7A45;">Blog</a><a href="Catalogue.dc.html" style="color:#46514a;">Catalogue</a><a href="Services.dc.html" style="color:#46514a;">Services</a><a href="A-Propos.dc.html" style="color:#46514a;">À propos</a><a href="Contact.dc.html" style="color:#46514a;">Contact</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
+      <span class="tes-nav-lang" style="font-size:13px;color:#46514a;font-weight:700;"><span style="color:#1F7A45;">FR</span> · EN</span>
+      <a href="{{ wa }}" style="background:#14241A;color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:100px;">Demander un devis</a>
+      <div class="tes-hamb" style="display:none;flex-direction:column;gap:4px;cursor:pointer;"><span style="width:22px;height:2px;background:#1F7A45;border-radius:2px;"></span><span style="width:22px;height:2px;background:#1F7A45;border-radius:2px;"></span><span style="width:15px;height:2px;background:#1F7A45;border-radius:2px;"></span></div>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="tes-pad" style="padding:20px 46px 0;background:#fff;">
+    <div style="max-width:900px;margin:0 auto;font-size:13px;color:#56625a;font-weight:600;">
+      <a href="TES Agribusiness.dc.html" style="color:#56625a;">Accueil</a> / <a href="Blog.dc.html" style="color:#56625a;">Blog</a> / <span style="color:#14241A;">{{ post.cat }}</span>
+    </div>
+  </div>
+
+  <!-- ARTICLE -->
+  <div class="tes-pad" style="padding:26px 46px 60px;background:#fff;">
+    <div style="max-width:900px;margin:0 auto;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 20%;">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;">
+        <span style="background:#E3F1E7;color:#1F7A45;font-size:12px;font-weight:800;padding:5px 13px;border-radius:100px;">{{ post.cat }}</span>
+        <span style="font-size:13px;color:#8a968d;">{{ post.date }} · {{ post.readTime }} de lecture</span>
+      </div>
+      <h1 class="tes-h1" style="font-weight:800;font-size:38px;color:#14241A;margin:0 0 24px;line-height:1.2;">{{ post.title }}</h1>
+      <div style="height:320px;border-radius:22px;background:repeating-linear-gradient(135deg,#dbe7dd 0 14px,#e7efe8 14px 28px);display:flex;align-items:center;justify-content:center;margin-bottom:28px;"><span style="font-family:monospace;font-size:11px;color:#6f8473;text-transform:uppercase;background:rgba(255,255,255,.75);padding:6px 12px;border-radius:8px;">[ image article ]</span></div>
+      <p style="font-size:18px;line-height:1.7;color:#2b3a2c;margin:0 0 20px;font-weight:600;">{{ post.excerpt }}</p>
+      <p style="font-size:16px;line-height:1.8;color:#46514a;margin:0 0 20px;">Chez TES Agribusiness, nous croyons qu'un bon entretien et les bons choix techniques font toute la différence sur le rendement d'une exploitation. Nos conseillers et notre atelier accompagnent chaque client, de la sélection du matériel jusqu'à sa maintenance au quotidien.</p>
+      <p style="font-size:16px;line-height:1.8;color:#46514a;margin:0 0 20px;">Pour aller plus loin, nos équipes restent disponibles en boutique ou par téléphone pour un diagnostic personnalisé selon votre type de culture et la taille de votre exploitation.</p>
+      <div style="margin-top:32px;padding-top:24px;border-top:1px solid #eef2ef;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+        <a href="Blog.dc.html" style="color:#1F7A45;font-weight:700;font-size:14px;">← Retour au blog</a>
+        <a href="Contact.dc.html" style="background:#1F7A45;color:#fff;font-weight:700;font-size:14px;padding:13px 22px;border-radius:100px;">Parler à un conseiller</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED -->
+  <div class="tes-pad" style="padding:50px 46px 70px;background:#F3F7F2;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <h2 style="font-weight:800;font-size:24px;color:#14241A;margin:0 0 22px;">À lire aussi</h2>
+      <div class="tes-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <sc-for list="{{ related }}" as="p" hint-placeholder-count="3">
+          <a href="{{ p.href }}" style="background:#fff;border:1px solid #e7ede8;border-radius:18px;overflow:hidden;transition:transform .25s;" style-hover="transform:translateY(-5px);">
+            <div style="height:130px;background:repeating-linear-gradient(135deg,#dbe7dd 0 14px,#e7efe8 14px 28px);"></div>
+            <div style="padding:16px;">
+              <div style="font-size:11px;color:#1F7A45;font-weight:800;margin-bottom:8px;">{{ p.cat }}</div>
+              <div style="font-weight:700;font-size:14px;color:#14241A;line-height:1.3;">{{ p.title }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#173a26;color:#c3d6c8;">
+    <div class="tes-pad" style="max-width:1240px;margin:0 auto;padding:64px 46px 40px;">
+      <div class="tes-foot" style="display:grid;grid-template-columns:1.5fr 1fr 1.2fr 1.3fr;gap:40px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:18px;">
+            <img src="assets/tes-logo.png" alt="TES Agribusiness" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:0 0 44px;">
+            <div style="font-weight:800;font-size:22px;color:#fff;">TES Agribusiness</div>
+          </div>
+          <p style="font-size:14px;line-height:1.7;color:#9fb8a6;margin:0;max-width:300px;">Distribution d'équipements agricoles modernes au Cameroun. Innovation – Performance – Productivité au service des agriculteurs.</p>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:18px;">Liens rapides</div>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <a href="TES Agribusiness.dc.html" style="font-size:14px;color:#b9cebf;">› Accueil</a>
+            <a href="A-Propos.dc.html" style="font-size:14px;color:#b9cebf;">› À propos</a>
+            <a href="Services.dc.html" style="font-size:14px;color:#b9cebf;">› Nos services</a>
+            <a href="Catalogue.dc.html" style="font-size:14px;color:#b9cebf;">› Catalogue</a>
+            <a href="Contact.dc.html" style="font-size:14px;color:#b9cebf;">› Contact</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:18px;">Nos services</div>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <sc-for list="{{ footServices }}" as="l" hint-placeholder-count="5">
+              <div style="font-size:14px;color:#b9cebf;">› {{ l }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:14px;">Siège social</div>
+          <div style="font-size:14px;line-height:1.7;color:#9fb8a6;margin-bottom:22px;">Yaoundé – Anguissa, Carrefour Belilibi<br>Douala – Makepe Rhône Moulin<br>+237 678 431 967</div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:10px;">Heures d'ouverture</div>
+          <div style="font-size:14px;line-height:1.7;color:#9fb8a6;">Lundi – Samedi · 7h30 – 18h00</div>
+        </div>
+      </div>
+    </div>
+    <div class="tes-pad" style="border-top:1px solid rgba(255,255,255,.12);">
+      <div class="tes-footbar" style="max-width:1240px;margin:0 auto;padding:22px 46px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div style="font-size:13px;color:#8aa392;">© 2026 TES Agribusiness · Tous droits réservés</div>
+        <div style="display:flex;gap:10px;">
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+            <a href="{{ s.url }}" style="width:34px;height:34px;border-radius:9px;background:#D8A52A;color:#173a26;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;">{{ s.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="{{ wa }}" style="position:fixed;bottom:28px;right:28px;width:62px;height:62px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 34px -10px rgba(37,211,102,.7);z-index:60;">
+    <span style="position:absolute;inset:0;border-radius:50%;background:#25D366;animation:pulse-ring 2.4s ease-out infinite;z-index:-1;"></span>
+    <span style="display:block;width:28px;height:24px;background:#fff;border-radius:9px 9px 9px 3px;"></span>
+  </a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { data: null };
+  async componentDidMount() {
+    const mod = await import('./assets/tes-data.js');
+    this.setState({ data: mod });
+  }
+  renderVals() {
+    const d = this.state.data;
+    if (!d) return { wa: 'https://wa.me/237678431967', post: {}, related: [] };
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id') || 'b1';
+    const post = d.posts.find((p) => p.id === id) || d.posts[0];
+    const related = d.posts.filter((p) => p.id !== post.id).slice(0, 3).map((p) => ({ ...p, href: 'Blog-Article.dc.html?id=' + p.id }));
+    return {
+      post, related,
+      footServices: d.footServices,
+      socials: d.socials,
+      wa: d.wa,
+    };
+  }
+}
+</script>
+</body>
+</html>

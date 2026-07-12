@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+body{margin:0;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;}
+input,select,textarea,button{font-family:inherit;}
+@keyframes reveal-up{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+@keyframes reveal-fade{from{opacity:0;}to{opacity:1;}}
+@keyframes reveal-left{from{opacity:0;transform:translateX(-46px);}to{opacity:1;transform:none;}}
+@keyframes reveal-right{from{opacity:0;transform:translateX(46px);}to{opacity:1;transform:none;}}
+@keyframes reveal-scale{from{opacity:0;transform:scale(.88);}to{opacity:1;transform:none;}}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
+@keyframes floaty2{0%,100%{transform:translateY(0);}50%{transform:translateY(13px);}}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes pulse-ring{0%{transform:scale(.75);opacity:.65;}80%,100%{transform:scale(1.9);opacity:0;}}
+@keyframes par-slow{from{transform:translateY(-30px);}to{transform:translateY(30px);}}
+@keyframes par-fast{from{transform:translateX(-40px);}to{transform:translateX(60px);}}
+@keyframes kenburns{0%{transform:scale(1) translate(0,0);}100%{transform:scale(1.12) translate(-1.5%,-1%);}}
+@keyframes kb-slide{0%{opacity:0;}6%{opacity:1;}30%{opacity:1;}38%{opacity:0;}100%{opacity:0;}}
+@keyframes kb-zoomA{0%{transform:scale(1.02);}100%{transform:scale(1.16);}}
+@keyframes kb-zoomB{0%{transform:scale(1.16) translateX(2%);}100%{transform:scale(1.02) translateX(-2%);}}
+@keyframes kb-zoomC{0%{transform:scale(1.04) translateY(1.5%);}100%{transform:scale(1.18) translateY(-1.5%);}}
+@media(max-width:820px){
+  .tes-nav-links,.tes-nav-lang{display:none !important;}
+  .tes-hamb{display:flex !important;}
+  .tes-hero{grid-template-columns:1fr !important;}
+  .tes-hero-visual{order:-1;height:280px !important;}
+  .tes-cats{grid-template-columns:repeat(3,1fr) !important;}
+  .tes-3{grid-template-columns:1fr !important;}
+  .tes-2{grid-template-columns:1fr !important;}
+  .tes-4{grid-template-columns:1fr 1fr !important;}
+  .tes-services{grid-template-columns:1fr !important;}
+  .tes-services-sticky{position:static !important;}
+  .tes-h1{font-size:40px !important;}
+  .tes-pad{padding-left:22px !important;padding-right:22px !important;}
+  .tes-newsletter{flex-direction:column !important;align-items:stretch !important;}
+  .tes-foot{grid-template-columns:1fr 1fr !important;gap:32px !important;}
+  .tes-footbar{flex-direction:column !important;align-items:flex-start !important;}
+}
+@media(max-width:520px){
+  .tes-foot{grid-template-columns:1fr !important;}
+}
+@media(max-width:520px){
+  .tes-cats{grid-template-columns:repeat(2,1fr) !important;}
+  .tes-4{grid-template-columns:1fr !important;}
+  .tes-search{flex-wrap:wrap !important;}
+}
+</style>
+</helmet>
+
+<div style="width:100%;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;--tes-green:{{ green }};--tes-gold:{{ gold }};">
+
+  <!-- nav -->
+  <div class="tes-pad" style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:18px 46px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid #eef2ef;position:sticky;top:0;z-index:40;">
+    <a href="TES Agribusiness.dc.html" style="display:flex;align-items:center;gap:11px;flex-shrink:0;text-decoration:none;">
+      <img src="assets/tes-logo.png" alt="TES Agribusiness" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex:0 0 46px;box-shadow:0 4px 14px -5px rgba(20,40,26,.5);">
+      <div style="line-height:1.1;"><div style="font-weight:800;font-size:19px;color:#14241A;white-space:nowrap;">TES Agribusiness</div></div>
+    </a>
+    <div class="tes-nav-links" style="display:flex;gap:20px;font-size:14px;color:#46514a;font-weight:600;flex-shrink:1;white-space:nowrap;order:3;flex-basis:100%;justify-content:center;">
+      <a href="TES Agribusiness.dc.html" style="color:var(--tes-green,#1F7A45);text-decoration:none;">Accueil</a><a href="Blog.dc.html" style="color:#46514a;text-decoration:none;">Blog</a><a href="Catalogue.dc.html" style="color:#46514a;text-decoration:none;">Catalogue</a><a href="Services.dc.html" style="color:#46514a;text-decoration:none;">Services</a><a href="A-Propos.dc.html" style="color:#46514a;text-decoration:none;">À propos</a><a href="Contact.dc.html" style="color:#46514a;text-decoration:none;">Contact</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
+      <span class="tes-nav-lang" style="font-size:13px;color:#46514a;font-weight:700;"><span style="color:var(--tes-green,#1F7A45);">FR</span> · EN</span>
+      <a href="Cart.dc.html" style="position:relative;width:40px;height:40px;border-radius:50%;background:#F3F7F2;display:flex;align-items:center;justify-content:center;color:#14241A;font-size:17px;text-decoration:none;">🛒<sc-if value="{{ cartCount }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-4px;right:-4px;background:var(--tes-green,#1F7A45);color:#fff;font-size:10px;font-weight:800;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;">{{ cartCount }}</span></sc-if></a>
+      <a href="{{ wa }}" style="background:#14241A;color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:100px;text-decoration:none;">Demander un devis</a>
+      <div class="tes-hamb" style="display:none;flex-direction:column;gap:4px;cursor:pointer;"><span style="width:22px;height:2px;background:var(--tes-green,#1F7A45);border-radius:2px;"></span><span style="width:22px;height:2px;background:var(--tes-green,#1F7A45);border-radius:2px;"></span><span style="width:15px;height:2px;background:var(--tes-green,#1F7A45);border-radius:2px;"></span></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="tes-pad" style="padding:74px 46px 84px;background:#eef3ec;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;overflow:hidden;">
+      <div style="position:absolute;inset:0;opacity:0;animation:kb-slide 21s linear infinite;animation-delay:0s;"><div style="position:absolute;inset:0;background-image:url('assets/hero-field.png');background-size:cover;background-position:center;animation:kb-zoomA 7s ease-in-out infinite;"></div></div>
+      <div style="position:absolute;inset:0;opacity:0;animation:kb-slide 21s linear infinite;animation-delay:7s;"><div style="position:absolute;inset:0;background-image:url('assets/hero-field.png');background-size:cover;background-position:left center;animation:kb-zoomB 7s ease-in-out infinite;"></div></div>
+      <div style="position:absolute;inset:0;opacity:0;animation:kb-slide 21s linear infinite;animation-delay:14s;"><div style="position:absolute;inset:0;background-image:url('assets/hero-field.png');background-size:cover;background-position:right center;animation:kb-zoomC 7s ease-in-out infinite;"></div></div>
+    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(102deg,rgba(243,247,242,.97) 0%,rgba(243,247,242,.9) 40%,rgba(243,247,242,.55) 66%,rgba(243,247,242,.12) 100%);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(243,247,242,.6) 0%,rgba(243,247,242,0) 30%);"></div>
+    <div class="tes-hero" style="position:relative;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;max-width:1240px;margin:0 auto;">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:9px;background:#E3F1E7;color:var(--tes-green,#1F7A45);font-size:13px;font-weight:700;padding:8px 16px;border-radius:100px;margin-bottom:24px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 18%;"><span style="width:7px;height:7px;border-radius:50%;background:var(--tes-green,#1F7A45);"></span>Vente &amp; services agricoles · Cameroun</div>
+        <h1 class="tes-h1" style="font-weight:800;font-size:60px;line-height:1.04;color:#14241A;margin:0 0 22px;letter-spacing:-.02em;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 22%;">Le bon matériel,<br>la bonne <span style="color:var(--tes-green,#1F7A45);">récolte</span>.</h1>
+        <p style="font-size:18px;line-height:1.6;color:#56625a;max-width:470px;margin:0 0 30px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 26%;">Parcourez le catalogue, commandez en ligne, retirez ou faites livrer en boutique. Installation, formation et SAV assurés par nos équipes.</p>
+        <div class="tes-search" style="display:flex;gap:8px;background:#fff;border:1px solid #e2e8e3;padding:8px;border-radius:100px;max-width:500px;box-shadow:0 20px 40px -26px rgba(20,40,26,.4);animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 30%;">
+          <select style="border:none;background:#F3F7F2;color:var(--tes-green,#1F7A45);font-weight:700;font-size:14px;padding:0 16px;border-radius:100px;outline:none;"><option>Catégorie</option><option>Tronçonneuses</option></select>
+          <input placeholder="Rechercher une machine…" style="flex:1;min-width:140px;border:none;background:transparent;outline:none;font-size:15px;color:#14241A;padding:0 8px;">
+          <button style="border:none;background:var(--tes-green,#1F7A45);color:#fff;font-weight:700;font-size:14px;padding:13px 26px;border-radius:100px;cursor:pointer;transition:background .2s;" style-hover="background:#14241A;">Chercher</button>
+        </div>
+        <div style="display:flex;gap:26px;margin-top:30px;flex-wrap:wrap;animation:reveal-fade linear both;animation-timeline:view();animation-range:entry 0% cover 34%;">
+          <div style="display:flex;align-items:center;gap:9px;font-size:14px;color:#46514a;font-weight:600;"><span style="width:8px;height:8px;border-radius:50%;background:var(--tes-green,#1F7A45);"></span>Livraison 48h en boutique</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:14px;color:#46514a;font-weight:600;"><span style="width:8px;height:8px;border-radius:50%;background:var(--tes-gold,#D8A52A);"></span>Garantie &amp; SAV inclus</div>
+        </div>
+      </div>
+      <div class="tes-hero-visual" style="position:relative;height:400px;animation:reveal-scale linear both;animation-timeline:view();animation-range:entry 0% cover 30%;">
+        <div style="position:absolute;inset:0;border-radius:28px;background:transparent;overflow:hidden;">
+          <sc-for list="{{ heroSlides }}" as="hs" hint-placeholder-count="5">
+            <div style="position:absolute;inset:26px;display:flex;align-items:center;justify-content:center;opacity:{{ hs.opacity }};transform:{{ hs.transform }};transition:opacity 1s ease,transform 1s ease;">
+              <img src="{{ hs.img }}" alt="{{ hs.name }}" style="max-width:82%;max-height:82%;object-fit:contain;filter:drop-shadow(0 24px 30px rgba(20,40,26,.28));">
+            </div>
+          </sc-for>
+        </div>
+        <div style="position:absolute;bottom:16px;left:0;right:0;display:flex;justify-content:center;gap:8px;">
+          <sc-for list="{{ heroSlides }}" as="hs" hint-placeholder-count="5">
+            <span onClick="{{ hs.goTo }}" style="width:{{ hs.dotSize }};height:8px;border-radius:100px;background:{{ hs.dotColor }};cursor:pointer;transition:all .3s ease;"></span>
+          </sc-for>
+        </div>
+        <div style="position:absolute;top:24px;right:-20px;background:#fff;border-radius:16px;padding:14px 18px;box-shadow:0 18px 38px -22px rgba(20,40,26,.5);animation:floaty 5s ease-in-out infinite;"><div style="font-size:12px;color:#8a968d;font-weight:600;">+3 000 clients</div><div style="font-weight:800;font-size:18px;color:var(--tes-green,#1F7A45);">satisfaits</div></div>
+        <div style="position:absolute;bottom:24px;left:-20px;background:#14241A;color:#fff;border-radius:16px;padding:14px 18px;box-shadow:0 18px 38px -22px rgba(20,40,26,.6);animation:floaty2 6s ease-in-out infinite;"><div style="font-size:12px;opacity:.7;">Dès</div><div style="font-weight:800;font-size:18px;color:#E9C46A;">95 000 FCFA</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="tes-pad" style="padding:56px 46px;background:#fff;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:26px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 16%;">
+        <h2 style="font-weight:800;font-size:30px;color:#14241A;margin:0;">Explorez par catégorie</h2>
+        <a href="Catalogue.dc.html" style="color:var(--tes-green,#1F7A45);font-weight:700;font-size:14px;text-decoration:none;">Voir tout →</a>
+      </div>
+      <div class="tes-cats" style="display:grid;grid-template-columns:repeat(8,1fr);gap:12px;">
+        <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="8">
+          <a href="{{ cat.href }}" style="text-align:center;display:block;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 22%;cursor:pointer;text-decoration:none;">
+            <div style="width:72px;height:72px;margin:0 auto 12px;border-radius:20px;background:#F3F7F2;border:1px solid #e7ede8;display:flex;align-items:center;justify-content:center;color:var(--tes-green,#1F7A45);font-weight:800;transition:transform .25s,background .25s;" style-hover="background:#E3F1E7;transform:translateY(-4px);">{{ cat.iconEl }}</div>
+            <div style="font-size:13px;font-weight:600;color:#2b3a2c;line-height:1.3;">{{ cat.name }}</div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATALOG -->
+  <div class="tes-pad" style="padding:56px 46px;background:#F3F7F2;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:34px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 16%;">
+        <div style="font-size:13px;letter-spacing:.04em;color:var(--tes-gold,#D8A52A);text-transform:uppercase;font-weight:800;margin-bottom:8px;">Achetable en ligne · livrable en boutique</div>
+        <h2 style="font-weight:800;font-size:34px;color:#14241A;margin:0;">Notre sélection</h2>
+      </div>
+      <div class="tes-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+        <sc-for list="{{ products }}" as="p" hint-placeholder-count="6">
+          <a href="{{ p.href }}" style="background:#fff;border:1px solid #e7ede8;border-radius:22px;overflow:hidden;transition:transform .28s,box-shadow .28s;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 24%;display:block;text-decoration:none;" style-hover="transform:translateY(-6px);box-shadow:0 28px 50px -30px rgba(20,40,26,.45);">
+            <div style="position:relative;height:200px;background:#fff;display:flex;align-items:center;justify-content:center;padding:18px;border-bottom:1px solid #eef2ef;">
+              <sc-if value="{{ p.img }}" hint-placeholder-val="{{ false }}">{{ p.imgEl }}</sc-if>
+              <sc-if value="{{ p.tag }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:14px;left:14px;background:var(--tes-gold,#D8A52A);color:#14241A;font-size:11px;font-weight:800;padding:5px 12px;border-radius:100px;">{{ p.tag }}</span></sc-if>
+            </div>
+            <div style="padding:20px;">
+              <div style="font-size:12px;color:var(--tes-green,#1F7A45);font-weight:700;margin-bottom:6px;">{{ p.cat }}</div>
+              <div style="font-weight:800;font-size:18px;color:#14241A;margin-bottom:14px;">{{ p.name }}</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="font-weight:800;font-size:17px;color:#14241A;">{{ p.price }}</div>
+                <span style="border:none;background:var(--tes-green,#1F7A45);color:#fff;font-weight:700;font-size:13px;padding:11px 18px;border-radius:100px;">Voir →</span>
+              </div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+      <div style="text-align:center;margin-top:34px;"><a href="Catalogue.dc.html" style="display:inline-block;background:#14241A;color:#fff;font-weight:700;font-size:15px;padding:15px 34px;border-radius:100px;cursor:pointer;text-decoration:none;">Voir tout le catalogue →</a></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="tes-pad" style="padding:60px 46px;background:#fff;">
+    <div class="tes-services" style="display:grid;grid-template-columns:.8fr 1.2fr;gap:42px;align-items:start;max-width:1240px;margin:0 auto;">
+      <div class="tes-services-sticky" style="position:sticky;top:100px;animation:reveal-left linear both;animation-timeline:view();animation-range:entry 0% cover 24%;">
+        <div style="font-size:13px;letter-spacing:.04em;color:var(--tes-gold,#D8A52A);text-transform:uppercase;font-weight:800;margin-bottom:10px;">Nos services</div>
+        <h2 style="font-weight:800;font-size:34px;line-height:1.1;color:#14241A;margin:0 0 16px;">On vous accompagne, saison après saison</h2>
+        <p style="font-size:15px;line-height:1.6;color:#56625a;margin:0 0 22px;">De l'achat à la maintenance, une équipe dédiée pour faire tourner votre exploitation sans accroc.</p>
+        <a href="Services.dc.html" style="display:inline-block;background:#E3F1E7;color:var(--tes-green,#1F7A45);font-weight:700;font-size:14px;padding:13px 26px;border-radius:100px;cursor:pointer;text-decoration:none;">Tous les services →</a>
+      </div>
+      <div class="tes-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+          <div style="background:#F3F7F2;border:1px solid #e7ede8;border-radius:18px;padding:22px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 26%;transition:background .25s;" style-hover="background:#E3F1E7;">
+            <div style="width:42px;height:42px;border-radius:12px;background:var(--tes-green,#1F7A45);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:14px;">{{ s.n }}</div>
+            <div style="font-weight:800;font-size:16px;color:#14241A;margin-bottom:7px;">{{ s.title }}</div>
+            <div style="font-size:13px;line-height:1.5;color:#6b776e;">{{ s.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="tes-pad" style="padding:56px 46px;background:var(--tes-green,#1F7A45);color:#fff;">
+    <div class="tes-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1240px;margin:0 auto;">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+        <div style="text-align:center;animation:reveal-scale linear both;animation-timeline:view();animation-range:entry 0% cover 26%;">
+          <div style="font-weight:800;font-size:52px;color:#fff;line-height:1;"><span data-count="{{ st.num }}" data-suffix="{{ st.suffix }}">{{ st.display }}</span></div>
+          <div style="font-size:14px;color:#bfe0cb;margin-top:8px;font-weight:600;">{{ st.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="tes-pad" style="padding:60px 46px;background:#fff;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:36px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 16%;">
+        <div style="font-size:13px;letter-spacing:.04em;color:var(--tes-gold,#D8A52A);text-transform:uppercase;font-weight:800;margin-bottom:8px;">Avis clients</div>
+        <h2 style="font-weight:800;font-size:34px;color:#14241A;margin:0;">Ils cultivent avec TES</h2>
+      </div>
+      <div class="tes-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+          <div style="background:#F3F7F2;border:1px solid #e7ede8;border-radius:22px;padding:26px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 24%;">
+            <div style="color:var(--tes-gold,#D8A52A);font-size:15px;letter-spacing:2px;margin-bottom:14px;">★★★★★</div>
+            <p style="font-size:17px;line-height:1.55;color:#26342a;margin:0 0 22px;">“{{ t.quote }}”</p>
+            <div style="display:flex;align-items:center;gap:12px;"><div style="width:46px;height:46px;border-radius:50%;background:var(--tes-green,#1F7A45);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;">{{ t.initial }}</div><div><div style="font-weight:700;color:#14241A;font-size:15px;">{{ t.name }}</div><div style="font-size:13px;color:#8a968d;">{{ t.role }}</div></div></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANDS -->
+  <div style="padding:40px 0;background:#F3F7F2;overflow:hidden;">
+    <div style="text-align:center;font-size:12px;letter-spacing:.1em;color:#8a968d;text-transform:uppercase;font-weight:700;margin-bottom:24px;">Marques partenaires</div>
+    <div style="-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);">
+      <div style="display:flex;gap:56px;width:max-content;animation:marquee 30s linear infinite;">
+        <sc-for list="{{ brandsLoop }}" as="b" hint-placeholder-count="16"><span style="font-weight:800;font-size:24px;color:#aab5ac;white-space:nowrap;">{{ b }}</span></sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="tes-pad" style="padding:60px 46px;background:#fff;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:34px;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 16%;">
+        <div style="font-size:13px;letter-spacing:.04em;color:var(--tes-gold,#D8A52A);text-transform:uppercase;font-weight:800;margin-bottom:8px;">Notre équipe</div>
+        <h2 style="font-weight:800;font-size:34px;color:#14241A;margin:0;">À votre service</h2>
+      </div>
+      <div class="tes-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+        <sc-for list="{{ team }}" as="m" hint-placeholder-count="4">
+          <div style="text-align:center;animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 24%;">
+            <div style="height:210px;border-radius:22px;background:repeating-linear-gradient(135deg,#dbe7dd 0 14px,#e7efe8 14px 28px);margin-bottom:14px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;"><span style="font-family:monospace;font-size:10px;color:#6f8473;text-transform:uppercase;background:rgba(255,255,255,.75);padding:5px 9px;border-radius:6px;">[ portrait ]</span></div>
+            <div style="font-weight:800;font-size:17px;color:#14241A;">{{ m.name }}</div>
+            <div style="font-size:13px;color:var(--tes-green,#1F7A45);font-weight:600;">{{ m.role }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT + NEWSLETTER -->
+  <div class="tes-pad" style="padding:60px 46px;background:#F3F7F2;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div class="tes-2" style="display:grid;grid-template-columns:1fr 1fr;gap:42px;">
+        <div style="animation:reveal-left linear both;animation-timeline:view();animation-range:entry 0% cover 22%;">
+          <div style="font-size:13px;letter-spacing:.04em;color:var(--tes-gold,#D8A52A);text-transform:uppercase;font-weight:800;margin-bottom:10px;">Contact</div>
+          <h2 style="font-weight:800;font-size:34px;color:#14241A;margin:0 0 18px;">Demandez votre devis</h2>
+          <p style="font-size:15px;line-height:1.6;color:#56625a;margin:0 0 26px;max-width:420px;">Un conseiller vous rappelle sous 24h avec une proposition et un délai de livraison en boutique.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;font-size:15px;color:#2b3a2c;font-weight:600;">
+            <div style="display:flex;gap:12px;align-items:center;"><span style="width:36px;height:36px;border-radius:50%;background:#E3F1E7;display:flex;align-items:center;justify-content:center;color:var(--tes-green,#1F7A45);">✆</span>+237 678 431 967</div>
+            <div style="display:flex;gap:12px;align-items:center;"><span style="width:36px;height:36px;border-radius:50%;background:#E3F1E7;display:flex;align-items:center;justify-content:center;color:var(--tes-green,#1F7A45);">✉</span>contact@tes-agribusiness.cm</div>
+            <div style="display:flex;gap:12px;align-items:center;"><span style="width:36px;height:36px;border-radius:50%;background:#E3F1E7;display:flex;align-items:center;justify-content:center;color:var(--tes-green,#1F7A45);">⌖</span>2 boutiques au Cameroun</div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e7ede8;border-radius:22px;padding:28px;box-shadow:0 24px 50px -34px rgba(20,40,26,.4);animation:reveal-right linear both;animation-timeline:view();animation-range:entry 0% cover 22%;">
+          <div class="tes-2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div><label style="font-size:12px;color:#6b776e;font-weight:700;">Nom complet</label><input placeholder="Votre nom" style="width:100%;margin-top:6px;border:1px solid #e2e8e3;background:#F3F7F2;border-radius:12px;padding:12px 14px;font-size:14px;outline:none;color:#14241A;"></div>
+            <div><label style="font-size:12px;color:#6b776e;font-weight:700;">Téléphone</label><input placeholder="+237…" style="width:100%;margin-top:6px;border:1px solid #e2e8e3;background:#F3F7F2;border-radius:12px;padding:12px 14px;font-size:14px;outline:none;color:#14241A;"></div>
+            <div style="grid-column:1/-1;"><label style="font-size:12px;color:#6b776e;font-weight:700;">Matériel recherché</label><input placeholder="Ex : tronçonneuse, motopompe…" style="width:100%;margin-top:6px;border:1px solid #e2e8e3;background:#F3F7F2;border-radius:12px;padding:12px 14px;font-size:14px;outline:none;color:#14241A;"></div>
+            <div style="grid-column:1/-1;"><label style="font-size:12px;color:#6b776e;font-weight:700;">Message</label><textarea rows="3" placeholder="Votre besoin…" style="width:100%;margin-top:6px;border:1px solid #e2e8e3;background:#F3F7F2;border-radius:12px;padding:12px 14px;font-size:14px;outline:none;resize:none;color:#14241A;"></textarea></div>
+          </div>
+          <button style="width:100%;margin-top:16px;border:none;background:var(--tes-green,#1F7A45);color:#fff;font-weight:700;font-size:15px;padding:15px;border-radius:100px;cursor:pointer;transition:background .2s;" style-hover="background:#14241A;">Envoyer ma demande</button>
+        </div>
+      </div>
+      <div class="tes-newsletter" style="margin-top:42px;background:#14241A;border-radius:22px;padding:30px 34px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;">
+        <div><div style="font-weight:800;font-size:22px;color:#fff;">Une longueur d'avance chaque saison</div><div style="font-size:14px;color:#9fb6a6;margin-top:4px;">Conseils, nouveautés et promos matériel — 1×/mois.</div></div>
+        <div style="display:flex;gap:8px;background:#fff;padding:7px;border-radius:100px;"><input placeholder="Votre e‑mail" style="border:none;background:transparent;outline:none;padding:10px 16px;font-size:14px;width:230px;color:#14241A;"><button style="border:none;background:var(--tes-gold,#D8A52A);color:#14241A;font-weight:800;font-size:14px;padding:11px 24px;border-radius:100px;cursor:pointer;">S'abonner</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#173a26;color:#c3d6c8;">
+    <div class="tes-pad" style="max-width:1240px;margin:0 auto;padding:64px 46px 40px;">
+      <div class="tes-foot" style="display:grid;grid-template-columns:1.5fr 1fr 1.2fr 1.3fr;gap:40px;">
+        <!-- brand -->
+        <div>
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:18px;">
+            <img src="assets/tes-logo.png" alt="TES Agribusiness" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:0 0 44px;">
+            <div style="font-weight:800;font-size:22px;color:#fff;">TES Agribusiness</div>
+          </div>
+          <p style="font-size:14px;line-height:1.7;color:#9fb8a6;margin:0;max-width:300px;">Distribution d'équipements agricoles modernes au Cameroun : matériel fiable, accompagnement personnalisé et transfert de savoir-faire.</p>
+        </div>
+        <!-- quick links -->
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:18px;">Liens rapides</div>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <a href="TES Agribusiness.dc.html" style="display:flex;align-items:center;gap:10px;font-size:14px;color:#b9cebf;text-decoration:none;"><span style="color:var(--tes-gold,#D8A52A);font-weight:800;">›</span>Accueil</a>
+            <a href="A-Propos.dc.html" style="display:flex;align-items:center;gap:10px;font-size:14px;color:#b9cebf;text-decoration:none;"><span style="color:var(--tes-gold,#D8A52A);font-weight:800;">›</span>À propos</a>
+            <a href="Services.dc.html" style="display:flex;align-items:center;gap:10px;font-size:14px;color:#b9cebf;text-decoration:none;"><span style="color:var(--tes-gold,#D8A52A);font-weight:800;">›</span>Nos services</a>
+            <a href="Catalogue.dc.html" style="display:flex;align-items:center;gap:10px;font-size:14px;color:#b9cebf;text-decoration:none;"><span style="color:var(--tes-gold,#D8A52A);font-weight:800;">›</span>Catalogue</a>
+            <a href="Contact.dc.html" style="display:flex;align-items:center;gap:10px;font-size:14px;color:#b9cebf;text-decoration:none;"><span style="color:var(--tes-gold,#D8A52A);font-weight:800;">›</span>Contact</a>
+          </div>
+        </div>
+        <!-- our services -->
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:18px;">Nos services</div>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <sc-for list="{{ footServices }}" as="l" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#b9cebf;cursor:pointer;"><span style="color:var(--tes-gold,#D8A52A);font-weight:800;">›</span>{{ l }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <!-- address + hours -->
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:14px;">Siège social</div>
+          <div style="font-size:14px;line-height:1.7;color:#9fb8a6;margin-bottom:22px;">Yaoundé – Anguissa, Carrefour Belilibi<br>Douala – Makepe Rhône Moulin<br>+237 678 431 967</div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:10px;">Heures d'ouverture</div>
+          <div style="font-size:14px;line-height:1.7;color:#9fb8a6;">Lundi – Samedi · 7h30 – 18h00</div>
+        </div>
+      </div>
+    </div>
+    <!-- bottom bar -->
+    <div class="tes-pad" style="border-top:1px solid rgba(255,255,255,.12);">
+      <div class="tes-footbar" style="max-width:1240px;margin:0 auto;padding:22px 46px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div style="font-size:13px;color:#8aa392;">© 2026 TES Agribusiness · Tous droits réservés</div>
+        <div style="display:flex;gap:10px;">
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+            <a href="{{ s.url }}" style="width:34px;height:34px;border-radius:9px;background:var(--tes-gold,#D8A52A);color:#173a26;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;text-decoration:none;transition:transform .2s;" style-hover="transform:translateY(-3px);">{{ s.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="{{ wa }}" style="position:fixed;bottom:28px;right:28px;width:62px;height:62px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 34px -10px rgba(37,211,102,.7);text-decoration:none;z-index:60;">
+    <span style="position:absolute;inset:0;border-radius:50%;background:#25D366;animation:pulse-ring 2.4s ease-out infinite;z-index:-1;"></span>
+    <span style="display:block;width:28px;height:24px;background:#fff;border-radius:9px 9px 9px 3px;"></span>
+  </a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;green&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#1F7A45&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Palette de couleur&quot;,&quot;options&quot;:[&quot;#1F7A45&quot;,&quot;#244A33&quot;,&quot;#2E7D32&quot;,&quot;#3F8E4A&quot;]},&quot;gold&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#C2902F&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Palette de couleur&quot;,&quot;options&quot;:[&quot;#C2902F&quot;,&quot;#E7B53C&quot;,&quot;#D8A52A&quot;,&quot;#B8860B&quot;]}}">
+class Component extends DCLogic {
+  renderVals() {
+    const h = React.createElement;
+    const svg = (...ch) => h('svg', { width: 34, height: 34, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' }, ...ch);
+    const P = (d) => h('path', { d, key: d });
+    const C = (cx, cy, r) => h('circle', { cx, cy, r, key: cx + '-' + cy + '-' + r });
+    const icons = {
+      chainsaw: svg(P('M3 12a2 2 0 0 1 2-2h4v5H5a2 2 0 0 1-2-2z'), P('M9 10.5h9a1.5 1.5 0 0 1 0 3H9z'), P('M11 10.5V9M14 10.5V9M17 10.5V9'), P('M5.5 10V7.5h3V10')),
+      brush: svg(P('M6 4h3'), P('M7.5 4.5 15 15'), C(16.5, 17, 3.2), P('M16.5 13.8v-2M16.5 22.2v-2M12.7 17h2M20.3 17h-2')),
+      sprayer: svg(P('M6.5 9h5v10h-5z'), P('M7 9V6.5h4V9'), P('M11.5 11h4l3-2.5'), C(19.5, 6, .6), C(21, 8, .6), C(19.5, 10, .6)),
+      auger: svg(P('M12 3v3'), P('M9 6h6l-6 3h6l-6 3h6l-6 3h5'), P('M11 18l1 3 1-3')),
+      pump: svg(P('M5 11h8v8H5z'), P('M13 13h4V9'), P('M17 3.5c1.6 2.2 2.6 3.3 2.6 4.8a2.6 2.6 0 0 1-5.2 0c0-1.5 1-2.6 2.6-4.8z')),
+      seeder: svg(P('M5 5h14l-2.5 6h-9z'), P('M8.5 11l-1 3M15.5 11l1 3M12 11v3'), C(8, 17, 1), C(12, 19, 1), C(16, 17, 1)),
+      tools: svg(P('M14.5 5.5a3.2 3.2 0 0 0-4.3 4.1l-6 6 2.2 2.2 6-6a3.2 3.2 0 0 0 4.1-4.3l-2 2-2-2z'), P('M4 20l3-3')),
+      parts: svg(C(12, 12, 3), P('M12 3v2.5M12 18.5V21M4.2 7l2.2 1.3M17.6 15.7l2.2 1.3M4.2 17l2.2-1.3M17.6 8.3l2.2-1.3')),
+    };
+    const categories = [
+      { icon: 'seeder', name: 'Semis', count: 2 },
+      { icon: 'seeder', name: 'Fertilisation', count: 1 },
+      { icon: 'sprayer', name: 'Pulvérisation', count: 3 },
+      { icon: 'brush', name: 'Débroussailleuses', count: 3 },
+      { icon: 'chainsaw', name: 'Tronçonneuses', count: 3 },
+      { icon: 'auger', name: 'Tarières', count: 3 },
+      { icon: 'tools', name: 'Outils horticoles', count: 2 },
+      { icon: 'pump', name: 'Motopompes', count: 3 },
+    ].map((c) => ({ ...c, iconEl: icons[c.icon], href: 'Catalogue.dc.html?cat=' + encodeURIComponent(c.name) }));
+    const products = [
+      { name: 'Tronçonneuse STIHL 070', cat: 'Tronçonneuses', price: '485 000 FCFA', tag: 'Best‑seller', img: 'uploads/9e2224a170e29b45ee1ee9857be40001a1946b2c.png' },
+      { name: 'Débroussailleuse STIHL', cat: 'Débroussailleuses', price: '395 000 FCFA', tag: 'Best‑seller', img: 'uploads/0505-1352-stihl-fs-220-brush-cutter-0.jpg' },
+      { name: 'Atomiseur STIHL SR420', cat: 'Pulvérisation', price: '520 000 FCFA', tag: '', img: 'uploads/ATOMIZADORA-STIHL-SR-420.png' },
+      { name: 'Tarière VACKSON (3 mèches)', cat: 'Tarières', price: '340 000 FCFA', tag: 'Nouveau', img: 'uploads/bt131-stihl-one-man-earth-auger-500x500.webp' },
+      { name: 'Motopompe EUROVOLTA sortie 80', cat: 'Motopompes', price: '410 000 FCFA', tag: 'Nouveau', img: 'uploads/gd750x_00b.png' },
+      { name: 'Semoir manuel', cat: 'Semis', price: '95 000 FCFA', tag: '', img: 'uploads/512O4FmaNnL._AC_SL1001_.jpg' },
+    ].map((p, i) => ({ ...p, href: 'Fiche-Produit.dc.html?id=p' + (i + 1), imgEl: React.createElement('img', { src: p.img, alt: p.name, style: { maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', mixBlendMode: 'multiply' } }) }));
+    const heroProducts = [
+      { name: 'Tronçonneuse STIHL MS 660', img: 'uploads/9e2224a170e29b45ee1ee9857be40001a1946b2c.png' },
+      { name: 'Débroussailleuse STIHL FS 220', img: 'uploads/0505-1352-stihl-fs-220-brush-cutter-0.jpg' },
+      { name: 'Atomiseur à dos STIHL SR 420', img: 'uploads/ATOMIZADORA-STIHL-SR-420.png' },
+      { name: 'Tarière thermique STIHL BT 131', img: 'uploads/bt131-stihl-one-man-earth-auger-500x500.webp' },
+      { name: 'Motopompe thermique 4"', img: 'uploads/gd750x_00b.png' },
+    ];
+    const activeSlide = this.state.heroSlide || 0;
+    const heroSlides = heroProducts.map((hp, i) => ({
+      ...hp,
+      opacity: i === activeSlide ? 1 : 0,
+      transform: i === activeSlide ? 'scale(1) translateY(0)' : 'scale(1.06) translateY(10px)',
+      dotSize: i === activeSlide ? '22px' : '8px',
+      dotColor: i === activeSlide ? 'var(--tes-green,#1F7A45)' : '#cdd8ce',
+      goTo: () => this.setState({ heroSlide: i }),
+    }));
+    const services = [
+      { n: '1', title: 'Livraison en boutique', desc: 'Retrait ou livraison dans nos 12 points de vente sous 48h.' },
+      { n: '2', title: 'Installation & mise en route', desc: 'Montage, réglages et première prise en main sur site.' },
+      { n: '3', title: 'Maintenance & SAV', desc: 'Atelier mobile et pièces d’origine garanties.' },
+      { n: '4', title: "Formation à l'utilisation", desc: 'Vos opérateurs formés à une conduite sûre et efficace.' },
+      { n: '5', title: 'Financement & facilités', desc: 'Solutions de paiement échelonné et crédit agricole.' },
+      { n: '6', title: 'Conseil agronomique', desc: 'Le bon matériel selon votre culture et vos parcelles.' },
+    ];
+    const stats = [
+      { num: 15, suffix: '+', display: '15+', label: "Ans d'expérience" },
+      { num: 3000, suffix: '+', display: '3 000+', label: 'Agriculteurs équipés' },
+      { num: 50, suffix: '+', display: '50+', label: 'Marques partenaires' },
+      { num: 2, suffix: '', display: '2', label: 'Boutiques au Cameroun' },
+    ];
+    const testimonials = [
+      { quote: "Depuis que j'ai équipé ma ferme chez TES, mes rendements ont bondi. Le SAV est réactif et toujours à l'écoute.", name: 'Awa N.', role: 'Maraîchère · Bafoussam', initial: 'A' },
+      { quote: "Commande en ligne, livraison en boutique en deux jours, et une formation sur place. Un vrai partenaire.", name: 'Jean‑Pierre M.', role: 'Céréalier · Garoua', initial: 'J' },
+      { quote: "Notre coopérative s'approvisionne uniquement chez TES : du matériel fiable et des conseils précieux.", name: 'Fatou D.', role: 'Coopérative agricole · Maroua', initial: 'F' },
+    ];
+    const team = [
+      { name: 'Samuel Etoa', role: 'Directeur général' },
+      { name: 'Aïcha Bello', role: 'Responsable commerciale' },
+      { name: 'Eric Nkeng', role: "Chef d'atelier" },
+      { name: 'Clarisse Mbarga', role: 'Conseillère agronome' },
+    ];
+    const brands = ['TerraMax', 'FieldKing', 'AgroForce', 'GreenTech', 'HarvestPro', 'AgriPro', 'SoilMaster', 'AquaFlow'];
+    return {
+      categories, products, services, stats, testimonials, team, brands, heroSlides,
+      brandsLoop: [...brands, ...brands],
+      footLinks: ['Accueil', 'À propos', 'Nos services', 'Catalogue', 'Contact'],
+      footServices: ['Vente de matériel', 'Livraison en boutique', 'Installation & SAV', 'Formation', 'Conseil agronomique'],
+      socials: [
+        { label: 'f', url: 'https://web.facebook.com/kenanjakaoficielle' },
+        { label: 'W', url: 'https://wa.me/237678431967' },
+        { label: '@', url: 'mailto:contact@tes-agribusiness.cm' },
+        { label: '✆', url: 'tel:+237678431967' },
+      ],
+      wa: 'https://wa.me/237678431967',
+      green: this.props.green ?? '#1F7A45',
+      gold: this.props.gold ?? '#C2902F',
+      cartCount: this.state.cartCount,
+    };
+  }
+  state = { cartCount: 0, heroSlide: 0 };
+  async componentDidMount() {
+    setTimeout(() => this.initCounters(), 80);
+    const cart = await import('./assets/cart.js');
+    this.setState({ cartCount: cart.getCount() });
+    this._heroTimer = setInterval(() => {
+      this.setState((s) => ({ heroSlide: (s.heroSlide + 1) % 5 }));
+    }, 3200);
+  }
+  componentWillUnmount() {
+    if (this._heroTimer) clearInterval(this._heroTimer);
+  }
+  initCounters() {
+    const fmt = (n) => n.toLocaleString('fr-FR').replace(/\u202f|,|\u00a0/g, ' ');
+    const seen = new WeakSet();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting || seen.has(e.target)) return;
+        seen.add(e.target);
+        const el = e.target;
+        const target = parseFloat(el.getAttribute('data-count')) || 0;
+        const suf = el.getAttribute('data-suffix') || '';
+        const dur = 1500, start = performance.now();
+        const step = (t) => {
+          const p = Math.min(1, (t - start) / dur);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = fmt(Math.round(target * ease)) + suf;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count]').forEach((el) => io.observe(el));
+  }
+}
+</script>
+</body>
+</html>

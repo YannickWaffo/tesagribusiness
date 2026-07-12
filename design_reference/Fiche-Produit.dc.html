@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+body{margin:0;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;}
+a{text-decoration:none;}
+@keyframes reveal-up{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+@keyframes pulse-ring{0%{transform:scale(.75);opacity:.65;}80%,100%{transform:scale(1.9);opacity:0;}}
+@media(max-width:820px){
+  .tes-nav-links,.tes-nav-lang{display:none !important;}
+  .tes-hamb{display:flex !important;}
+  .tes-detail{grid-template-columns:1fr !important;}
+  .tes-3{grid-template-columns:repeat(2,1fr) !important;}
+  .tes-pad{padding-left:22px !important;padding-right:22px !important;}
+  .tes-foot{grid-template-columns:1fr 1fr !important;gap:32px !important;}
+  .tes-footbar{flex-direction:column !important;align-items:flex-start !important;}
+}
+@media(max-width:520px){
+  .tes-foot{grid-template-columns:1fr !important;}
+  .tes-3{grid-template-columns:1fr !important;}
+}
+</style>
+</helmet>
+
+<div style="width:100%;background:#fff;font-family:'Plus Jakarta Sans',sans-serif;">
+
+  <!-- nav -->
+  <div class="tes-pad" style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:18px 46px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid #eef2ef;position:sticky;top:0;z-index:40;">
+    <a href="TES Agribusiness.dc.html" style="display:flex;align-items:center;gap:11px;flex-shrink:0;">
+      <img src="assets/tes-logo.png" alt="TES Agribusiness" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex:0 0 46px;box-shadow:0 4px 14px -5px rgba(20,40,26,.5);">
+      <div style="line-height:1.1;"><div style="font-weight:800;font-size:19px;color:#14241A;white-space:nowrap;">TES Agribusiness</div></div>
+    </a>
+    <div class="tes-nav-links" style="display:flex;gap:20px;font-size:14px;color:#46514a;font-weight:600;flex-shrink:1;white-space:nowrap;order:3;flex-basis:100%;justify-content:center;">
+      <a href="TES Agribusiness.dc.html" style="color:#46514a;">Accueil</a><a href="Blog.dc.html" style="color:#46514a;">Blog</a><a href="Catalogue.dc.html" style="color:#1F7A45;">Catalogue</a><a href="Services.dc.html" style="color:#46514a;">Services</a><a href="A-Propos.dc.html" style="color:#46514a;">À propos</a><a href="Contact.dc.html" style="color:#46514a;">Contact</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
+      <span class="tes-nav-lang" style="font-size:13px;color:#46514a;font-weight:700;"><span style="color:#1F7A45;">FR</span> · EN</span>
+      <a href="Cart.dc.html" style="position:relative;width:40px;height:40px;border-radius:50%;background:#F3F7F2;display:flex;align-items:center;justify-content:center;color:#14241A;font-size:17px;">🛒<sc-if value="{{ cartCount }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-4px;right:-4px;background:#1F7A45;color:#fff;font-size:10px;font-weight:800;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;">{{ cartCount }}</span></sc-if></a>
+      <a href="{{ wa }}" style="background:#14241A;color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:100px;">Demander un devis</a>
+      <div class="tes-hamb" style="display:none;flex-direction:column;gap:4px;cursor:pointer;"><span style="width:22px;height:2px;background:#1F7A45;border-radius:2px;"></span><span style="width:22px;height:2px;background:#1F7A45;border-radius:2px;"></span><span style="width:15px;height:2px;background:#1F7A45;border-radius:2px;"></span></div>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="tes-pad" style="padding:20px 46px 0;background:#fff;">
+    <div style="max-width:1240px;margin:0 auto;font-size:13px;color:#56625a;font-weight:600;">
+      <a href="TES Agribusiness.dc.html" style="color:#56625a;">Accueil</a> / <a href="Catalogue.dc.html" style="color:#56625a;">Catalogue</a> / <span style="color:#14241A;">{{ product.name }}</span>
+    </div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="tes-pad" style="padding:30px 46px 60px;background:#fff;">
+    <div class="tes-detail" style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;">
+      <div style="animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 20%;">
+        <div style="position:relative;height:420px;background:#F3F7F2;border:1px solid #e7ede8;border-radius:24px;display:flex;align-items:center;justify-content:center;padding:36px;">
+          <img src="{{ product.img }}" alt="{{ product.name }}" style="max-width:100%;max-height:100%;object-fit:contain;">
+          <sc-if value="{{ product.tag }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:20px;left:20px;background:#D8A52A;color:#14241A;font-size:12px;font-weight:800;padding:6px 14px;border-radius:100px;">{{ product.tag }}</span></sc-if>
+        </div>
+      </div>
+      <div style="animation:reveal-up linear both;animation-timeline:view();animation-range:entry 0% cover 24%;">
+        <div style="font-size:13px;color:#1F7A45;font-weight:700;margin-bottom:10px;">{{ product.cat }}</div>
+        <h1 style="font-weight:800;font-size:34px;color:#14241A;margin:0 0 14px;line-height:1.15;">{{ product.name }}</h1>
+        <div style="color:#D8A52A;font-size:15px;letter-spacing:2px;margin-bottom:18px;">★★★★★ <span style="color:#8a968d;font-size:13px;letter-spacing:0;margin-left:6px;">(4.9/5 · avis clients)</span></div>
+        <div style="font-weight:800;font-size:30px;color:#14241A;margin-bottom:22px;">{{ product.priceFmt }}</div>
+        <p style="font-size:15px;line-height:1.7;color:#56625a;margin:0 0 26px;">{{ product.desc }}</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:26px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#2b3a2c;font-weight:600;"><span style="width:8px;height:8px;border-radius:50%;background:#1F7A45;"></span>Livraison en boutique sous 48h</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#2b3a2c;font-weight:600;"><span style="width:8px;height:8px;border-radius:50%;background:#D8A52A;"></span>Garantie constructeur &amp; SAV inclus</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#2b3a2c;font-weight:600;"><span style="width:8px;height:8px;border-radius:50%;background:#1F7A45;"></span>Installation et formation disponibles</div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;border:1px solid #e2e8e3;border-radius:100px;overflow:hidden;">
+            <button onClick="{{ decQty }}" style="border:none;background:#F3F7F2;color:#14241A;font-weight:800;font-size:16px;width:44px;height:44px;cursor:pointer;">−</button>
+            <span style="width:40px;text-align:center;font-weight:700;color:#14241A;">{{ qty }}</span>
+            <button onClick="{{ incQty }}" style="border:none;background:#F3F7F2;color:#14241A;font-weight:800;font-size:16px;width:44px;height:44px;cursor:pointer;">+</button>
+          </div>
+          <button onClick="{{ addToCart }}" style="border:none;background:{{ addBtnBg }};color:#fff;font-weight:700;font-size:15px;padding:15px 28px;border-radius:100px;cursor:pointer;flex:1;min-width:200px;transition:background .2s;">{{ addBtnLabel }}</button>
+          <a href="{{ wa }}" style="border:1px solid #e2e8e3;color:#14241A;font-weight:700;font-size:15px;padding:15px 22px;border-radius:100px;">Commander par WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED -->
+  <div class="tes-pad" style="padding:50px 46px 70px;background:#F3F7F2;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <h2 style="font-weight:800;font-size:26px;color:#14241A;margin:0 0 22px;">Dans la même catégorie</h2>
+      <div class="tes-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <sc-for list="{{ related }}" as="p" hint-placeholder-count="3">
+          <a href="{{ p.href }}" style="background:#fff;border:1px solid #e7ede8;border-radius:20px;overflow:hidden;transition:transform .25s;" style-hover="transform:translateY(-5px);">
+            <div style="height:150px;display:flex;align-items:center;justify-content:center;padding:14px;border-bottom:1px solid #eef2ef;"><img src="{{ p.img }}" alt="{{ p.name }}" style="max-width:100%;max-height:100%;object-fit:contain;"></div>
+            <div style="padding:16px;">
+              <div style="font-weight:700;font-size:14px;color:#14241A;margin-bottom:8px;">{{ p.name }}</div>
+              <div style="font-weight:800;font-size:14px;color:#1F7A45;">{{ p.priceFmt }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#173a26;color:#c3d6c8;">
+    <div class="tes-pad" style="max-width:1240px;margin:0 auto;padding:64px 46px 40px;">
+      <div class="tes-foot" style="display:grid;grid-template-columns:1.5fr 1fr 1.2fr 1.3fr;gap:40px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:18px;">
+            <img src="assets/tes-logo.png" alt="TES Agribusiness" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:0 0 44px;">
+            <div style="font-weight:800;font-size:22px;color:#fff;">TES Agribusiness</div>
+          </div>
+          <p style="font-size:14px;line-height:1.7;color:#9fb8a6;margin:0;max-width:300px;">Distribution d'équipements agricoles modernes au Cameroun. Innovation – Performance – Productivité au service des agriculteurs.</p>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:18px;">Liens rapides</div>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <a href="TES Agribusiness.dc.html" style="font-size:14px;color:#b9cebf;">› Accueil</a>
+            <a href="A-Propos.dc.html" style="font-size:14px;color:#b9cebf;">› À propos</a>
+            <a href="Services.dc.html" style="font-size:14px;color:#b9cebf;">› Nos services</a>
+            <a href="Catalogue.dc.html" style="font-size:14px;color:#b9cebf;">› Catalogue</a>
+            <a href="Contact.dc.html" style="font-size:14px;color:#b9cebf;">› Contact</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:18px;">Nos services</div>
+          <div style="display:flex;flex-direction:column;gap:13px;">
+            <sc-for list="{{ footServices }}" as="l" hint-placeholder-count="5">
+              <div style="font-size:14px;color:#b9cebf;">› {{ l }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:14px;">Siège social</div>
+          <div style="font-size:14px;line-height:1.7;color:#9fb8a6;margin-bottom:22px;">Yaoundé – Anguissa, Carrefour Belilibi<br>Douala – Makepe Rhône Moulin<br>+237 678 431 967</div>
+          <div style="font-weight:800;font-size:16px;color:#fff;margin-bottom:10px;">Heures d'ouverture</div>
+          <div style="font-size:14px;line-height:1.7;color:#9fb8a6;">Lundi – Samedi · 7h30 – 18h00</div>
+        </div>
+      </div>
+    </div>
+    <div class="tes-pad" style="border-top:1px solid rgba(255,255,255,.12);">
+      <div class="tes-footbar" style="max-width:1240px;margin:0 auto;padding:22px 46px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div style="font-size:13px;color:#8aa392;">© 2026 TES Agribusiness · Tous droits réservés</div>
+        <div style="display:flex;gap:10px;">
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+            <a href="{{ s.url }}" style="width:34px;height:34px;border-radius:9px;background:#D8A52A;color:#173a26;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;">{{ s.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="{{ wa }}" style="position:fixed;bottom:28px;right:28px;width:62px;height:62px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 34px -10px rgba(37,211,102,.7);z-index:60;">
+    <span style="position:absolute;inset:0;border-radius:50%;background:#25D366;animation:pulse-ring 2.4s ease-out infinite;z-index:-1;"></span>
+    <span style="display:block;width:28px;height:24px;background:#fff;border-radius:9px 9px 9px 3px;"></span>
+  </a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { data: null, cart: null, qty: 1, justAdded: false };
+  async componentDidMount() {
+    const mod = await import('./assets/tes-data.js');
+    const cart = await import('./assets/cart.js');
+    this.setState({ data: mod, cart, cartCount: cart.getCount() });
+  }
+  renderVals() {
+    const d = this.state.data;
+    const cart = this.state.cart;
+    if (!d) return { wa: 'https://wa.me/237678431967', product: {}, related: [], qty: 1, cartCount: 0, addBtnLabel: 'Ajouter au panier', addBtnBg: '#1F7A45' };
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id') || 'p1';
+    const product = d.products.find((p) => p.id === id) || d.products[0];
+    const related = d.products.filter((p) => p.cat === product.cat && p.id !== product.id).slice(0, 3)
+      .map((p) => ({ ...p, priceFmt: d.fmtPrice(p.price), href: 'Fiche-Produit.dc.html?id=' + p.id }));
+    return {
+      product: { ...product, priceFmt: d.fmtPrice(product.price) },
+      related,
+      qty: this.state.qty,
+      incQty: () => this.setState((s) => ({ qty: s.qty + 1 })),
+      decQty: () => this.setState((s) => ({ qty: Math.max(1, s.qty - 1) })),
+      addToCart: () => {
+        if (!cart) return;
+        cart.addItem(product, this.state.qty);
+        this.setState({ justAdded: true, cartCount: cart.getCount() });
+        setTimeout(() => this.setState({ justAdded: false }), 1800);
+      },
+      addBtnLabel: this.state.justAdded ? 'Ajouté ✓' : 'Ajouter au panier',
+      addBtnBg: this.state.justAdded ? '#14241A' : '#1F7A45',
+      cartCount: this.state.cartCount || 0,
+      footServices: d.footServices,
+      socials: d.socials,
+      wa: d.wa,
+    };
+  }
+}
+</script>
+</body>
+</html>
