@@ -1,9 +1,26 @@
+import { createConnection } from "node:net";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { SCHEMA_STATEMENTS } from "@/lib/setup/schema-sql";
 import { seedDatabase } from "@/lib/setup/seed";
 
 export const dynamic = "force-dynamic";
+
+function tcpProbe(host: string, port: number): Promise<string> {
+  return new Promise((resolve) => {
+    const started = Date.now();
+    const socket = createConnection({ host, port, timeout: 5000 });
+    socket.on("connect", () => {
+      socket.destroy();
+      resolve(`connected in ${Date.now() - started}ms`);
+    });
+    socket.on("timeout", () => {
+      socket.destroy();
+      resolve("timeout after 5000ms");
+    });
+    socket.on("error", (e) => resolve(`error: ${e.message}`));
+  });
+}
 
 // One-time database initialization for hosts without shell access:
 // creates the schema (idempotent) then seeds reference data (upserts).
@@ -13,6 +30,15 @@ export async function GET(request: Request) {
   if (!process.env.AUTH_SECRET || key !== process.env.AUTH_SECRET) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const dbUrl = new URL(process.env.DATABASE_URL!);
+  const target = {
+    host: dbUrl.hostname,
+    port: dbUrl.port ? Number(dbUrl.port) : 3306,
+    database: dbUrl.pathname.replace(/^\//, ""),
+    user: dbUrl.username,
+  };
+  const tcp = await tcpProbe(target.host, target.port);
 
   const applied: string[] = [];
   const skipped: string[] = [];
@@ -36,9 +62,12 @@ export async function GET(request: Request) {
 
     const counts = await seedDatabase(prisma);
 
-    return NextResponse.json({ ok: true, applied, skipped, seeded: counts });
+    return NextResponse.json({ ok: true, target, tcp, applied, skipped, seeded: counts });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    return NextResponse.json({ ok: false, applied, skipped, error: message }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, target, tcp, applied, skipped, error: message },
+      { status: 500 }
+    );
   }
 }
