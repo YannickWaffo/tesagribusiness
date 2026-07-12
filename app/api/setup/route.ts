@@ -9,14 +9,26 @@ export const dynamic = "force-dynamic";
 function tcpProbe(host: string, port: number): Promise<string> {
   return new Promise((resolve) => {
     const started = Date.now();
+    let connectedAt = 0;
     const socket = createConnection({ host, port, timeout: 5000 });
     socket.on("connect", () => {
+      connectedAt = Date.now() - started;
+      // A MySQL server sends its handshake greeting immediately on
+      // connect; if it never arrives the protocol is being filtered.
+    });
+    socket.on("data", (chunk) => {
       socket.destroy();
-      resolve(`connected in ${Date.now() - started}ms`);
+      resolve(
+        `connected in ${connectedAt}ms, greeting received in ${Date.now() - started}ms (${chunk.length} bytes)`
+      );
     });
     socket.on("timeout", () => {
       socket.destroy();
-      resolve("timeout after 5000ms");
+      resolve(
+        connectedAt
+          ? `connected in ${connectedAt}ms but NO greeting within 5000ms (protocol filtered)`
+          : "timeout after 5000ms"
+      );
     });
     socket.on("error", (e) => resolve(`error: ${e.message}`));
   });
