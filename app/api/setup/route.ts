@@ -1,4 +1,5 @@
 import { createConnection } from "node:net";
+import mariadb from "mariadb";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { SCHEMA_STATEMENTS } from "@/lib/setup/schema-sql";
@@ -34,6 +35,28 @@ function tcpProbe(host: string, port: number): Promise<string> {
   });
 }
 
+async function driverProbe(url: URL): Promise<string> {
+  const started = Date.now();
+  let conn: mariadb.Connection | undefined;
+  try {
+    conn = await mariadb.createConnection({
+      host: url.hostname,
+      port: url.port ? Number(url.port) : 3306,
+      user: decodeURIComponent(url.username),
+      password: decodeURIComponent(url.password),
+      database: url.pathname.replace(/^\//, ""),
+      connectTimeout: 20000,
+    });
+    await conn.query("SELECT 1");
+    return `authenticated + query ok in ${Date.now() - started}ms`;
+  } catch (e) {
+    const err = e as { code?: string; errno?: number; message: string };
+    return `failed after ${Date.now() - started}ms: ${err.code ?? "?"} (${err.errno ?? "?"}) ${err.message}`;
+  } finally {
+    await conn?.end().catch(() => {});
+  }
+}
+
 // One-time database initialization for hosts without shell access:
 // creates the schema (idempotent) then seeds reference data (upserts).
 // GET /api/setup?key=<AUTH_SECRET>
@@ -51,6 +74,7 @@ export async function GET(request: Request) {
     user: dbUrl.username,
   };
   const tcp = await tcpProbe(target.host, target.port);
+  const driver = await driverProbe(dbUrl);
 
   const applied: string[] = [];
   const skipped: string[] = [];
@@ -74,11 +98,11 @@ export async function GET(request: Request) {
 
     const counts = await seedDatabase(prisma);
 
-    return NextResponse.json({ ok: true, target, tcp, applied, skipped, seeded: counts });
+    return NextResponse.json({ ok: true, target, tcp, driver, applied, skipped, seeded: counts });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     return NextResponse.json(
-      { ok: false, target, tcp, applied, skipped, error: message },
+      { ok: false, target, tcp, driver, applied, skipped, error: message },
       { status: 500 }
     );
   }

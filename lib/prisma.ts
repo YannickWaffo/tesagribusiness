@@ -11,9 +11,11 @@ function createClient() {
     user: decodeURIComponent(url.username),
     password: decodeURIComponent(url.password),
     database: url.pathname.replace(/^\//, ""),
-    // The database lives on a separate server from the app container;
-    // the driver's 1s default is too short for that first cross-host hop.
-    connectTimeout: 15000,
+    // The database lives on a separate server from the app container, and
+    // its first handshake can stall well past the driver defaults (1s
+    // connect, 10s pool acquire) while the server resolves the client.
+    connectTimeout: 25000,
+    acquireTimeout: 30000,
     connectionLimit: 5,
   });
   return new PrismaClient({ adapter });
