@@ -16,7 +16,14 @@ function createClient() {
     // connect, 10s pool acquire) while the server resolves the client.
     connectTimeout: 25000,
     acquireTimeout: 30000,
-    connectionLimit: 5,
+    // Hostinger caps max_connections_per_hour at 500 per DB user, so the
+    // pool must not hold idle connections that the server kills and the
+    // pool then endlessly recreates: keep at most 2, recycle them
+    // ourselves after 60s idle, and skip the reset roundtrip on release.
+    connectionLimit: 2,
+    minimumIdle: 0,
+    idleTimeout: 60,
+    resetAfterUse: false,
   });
   return new PrismaClient({ adapter });
 }
