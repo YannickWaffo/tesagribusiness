@@ -35,18 +35,21 @@ function tcpProbe(host: string, port: number): Promise<string> {
   });
 }
 
+function baseConfig(url: URL) {
+  return {
+    host: url.hostname,
+    port: url.port ? Number(url.port) : 3306,
+    user: decodeURIComponent(url.username),
+    password: decodeURIComponent(url.password),
+    database: url.pathname.replace(/^\//, ""),
+  };
+}
+
 async function driverProbe(url: URL): Promise<string> {
   const started = Date.now();
   let conn: mariadb.Connection | undefined;
   try {
-    conn = await mariadb.createConnection({
-      host: url.hostname,
-      port: url.port ? Number(url.port) : 3306,
-      user: decodeURIComponent(url.username),
-      password: decodeURIComponent(url.password),
-      database: url.pathname.replace(/^\//, ""),
-      connectTimeout: 20000,
-    });
+    conn = await mariadb.createConnection({ ...baseConfig(url), connectTimeout: 20000 });
     await conn.query("SELECT 1");
     return `authenticated + query ok in ${Date.now() - started}ms`;
   } catch (e) {
@@ -54,6 +57,32 @@ async function driverProbe(url: URL): Promise<string> {
     return `failed after ${Date.now() - started}ms: ${err.code ?? "?"} (${err.errno ?? "?"}) ${err.message}`;
   } finally {
     await conn?.end().catch(() => {});
+  }
+}
+
+async function poolProbe(
+  url: URL,
+  extra: Record<string, unknown>
+): Promise<string> {
+  const started = Date.now();
+  const events: string[] = [];
+  let pool: mariadb.Pool | undefined;
+  let conn: mariadb.PoolConnection | undefined;
+  try {
+    pool = mariadb.createPool({ ...baseConfig(url), ...extra });
+    (pool as unknown as { on: (ev: string, cb: (e: Error) => void) => void }).on(
+      "error",
+      (e) => events.push(e.message)
+    );
+    conn = await pool.getConnection();
+    await conn.query("SELECT 1");
+    return `pool ok in ${Date.now() - started}ms`;
+  } catch (e) {
+    const err = e as { code?: string; errno?: number; message: string };
+    return `pool failed after ${Date.now() - started}ms: ${err.code ?? "?"} (${err.errno ?? "?"}) ${err.message}${events.length ? ` | pool events: ${events.join(" ; ")}` : ""}`;
+  } finally {
+    conn?.release();
+    await pool?.end().catch(() => {});
   }
 }
 
@@ -75,6 +104,21 @@ export async function GET(request: Request) {
   };
   const tcp = await tcpProbe(target.host, target.port);
   const driver = await driverProbe(dbUrl);
+  // Same options as lib/prisma.ts (adapter adds prepareCacheLength: 0)
+  const poolLikeAdapter = await poolProbe(dbUrl, {
+    connectTimeout: 25000,
+    acquireTimeout: 8000,
+    connectionLimit: 2,
+    minimumIdle: 0,
+    idleTimeout: 60,
+    resetAfterUse: false,
+    prepareCacheLength: 0,
+  });
+  const poolMinimal = await poolProbe(dbUrl, {
+    connectionLimit: 1,
+    acquireTimeout: 8000,
+    connectTimeout: 8000,
+  });
 
   const applied: string[] = [];
   const skipped: string[] = [];
@@ -98,11 +142,21 @@ export async function GET(request: Request) {
 
     const counts = await seedDatabase(prisma);
 
-    return NextResponse.json({ ok: true, target, tcp, driver, applied, skipped, seeded: counts });
+    return NextResponse.json({
+      ok: true,
+      target,
+      tcp,
+      driver,
+      poolLikeAdapter,
+      poolMinimal,
+      applied,
+      skipped,
+      seeded: counts,
+    });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     return NextResponse.json(
-      { ok: false, target, tcp, driver, applied, skipped, error: message },
+      { ok: false, target, tcp, driver, poolLikeAdapter, poolMinimal, applied, skipped, error: message },
       { status: 500 }
     );
   }
