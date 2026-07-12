@@ -11,19 +11,16 @@ function createClient() {
     user: decodeURIComponent(url.username),
     password: decodeURIComponent(url.password),
     database: url.pathname.replace(/^\//, ""),
-    // The database lives on a separate server from the app container, and
-    // its first handshake can stall well past the driver defaults (1s
-    // connect, 10s pool acquire) while the server resolves the client.
-    connectTimeout: 25000,
-    acquireTimeout: 30000,
-    // Hostinger caps max_connections_per_hour at 500 per DB user, so the
-    // pool must not hold idle connections that the server kills and the
-    // pool then endlessly recreates: keep at most 2, recycle them
-    // ourselves after 60s idle, and skip the reset roundtrip on release.
+    // The database lives on a separate server from the app container;
+    // the driver's 1s connect default is too short for that first hop.
+    connectTimeout: 20000,
+    acquireTimeout: 20000,
+    // Hostinger caps max_connections_per_hour at 500 per DB user, so keep
+    // the pool tiny and recycle idle connections every 5 min (~24 new
+    // connections/hour at rest). Do NOT set minimumIdle: with it the pool
+    // never creates any connection at all (verified via /api/setup probes).
     connectionLimit: 2,
-    minimumIdle: 0,
-    idleTimeout: 60,
-    resetAfterUse: false,
+    idleTimeout: 300,
   });
   return new PrismaClient({ adapter });
 }
