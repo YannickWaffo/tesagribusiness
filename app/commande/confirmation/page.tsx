@@ -2,19 +2,22 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { fmtPrice } from "@/lib/format";
 import { COMPANY } from "@/lib/constants";
+import { ClearCartOnMount } from "@/components/ClearCartOnMount";
 
 export const dynamic = "force-dynamic";
 
 export default async function OrderConfirmationPage({
   searchParams,
 }: {
-  searchParams: Promise<{ ref?: string }>;
+  searchParams: Promise<{ ref?: string; paiement?: string }>;
 }) {
-  const { ref } = await searchParams;
+  const { ref, paiement } = await searchParams;
   const order = ref ? await prisma.order.findUnique({ where: { id: ref } }) : null;
+  const paid = paiement === "ok" || order?.status === "confirmed";
 
   return (
     <div className="flex min-h-screen flex-col bg-tes-bg">
+      {order && <ClearCartOnMount />}
       <div className="flex items-center gap-2.5 px-6 py-[18px] md:px-11">
         <span className="flex h-10 w-10 items-center justify-center rounded-full bg-tes-ink text-xs font-extrabold text-white">
           TES
@@ -29,9 +32,11 @@ export default async function OrderConfirmationPage({
           </div>
           <h1 className="mb-2.5 text-2xl font-extrabold text-tes-ink">Commande confirmée</h1>
           <p className="mb-[22px] text-sm leading-relaxed text-tes-muted">
-            {order
-              ? "Votre commande a été enregistrée. Un conseiller vous contacte sous peu pour confirmer les modalités de paiement."
-              : "Nous n'avons pas retrouvé les détails de cette commande, mais un conseiller reste disponible pour vous aider."}
+            {!order
+              ? "Nous n'avons pas retrouvé les détails de cette commande, mais un conseiller reste disponible pour vous aider."
+              : paid
+                ? "Merci ! Votre paiement a été confirmé par NotchPay. Un conseiller vous contacte pour organiser la réception."
+                : "Votre commande a été enregistrée. Un conseiller vous contacte sous peu pour confirmer les modalités de paiement."}
           </p>
 
           {order && (

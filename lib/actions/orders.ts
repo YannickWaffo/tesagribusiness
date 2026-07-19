@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { DELIVERY_FEE } from "@/lib/constants";
+import { getBaseUrl, initializePayment } from "@/lib/notchpay";
 
 export type CreateOrderInput = {
   items: { id: string; qty: number }[];
@@ -12,12 +13,15 @@ export type CreateOrderInput = {
   deliveryMode: "pickup" | "delivery";
   storeCity?: string;
   address?: string;
+  payment?: "notchpay" | "on_delivery";
 };
 
-export type CreateOrderResult = { ok: true; orderId: string } | { ok: false; error: string };
+export type CreateOrderResult =
+  | { ok: true; orderId: string; paymentUrl?: string }
+  | { ok: false; error: string };
 
 export async function createOrder(input: CreateOrderInput): Promise<CreateOrderResult> {
-  const { items, customerName, phone, deliveryMode, storeCity, address } = input;
+  const { items, customerName, phone, deliveryMode, storeCity, address, payment } = input;
 
   if (!items.length) return { ok: false, error: "Votre panier est vide." };
   if (!customerName.trim() || !phone.trim()) {
@@ -59,6 +63,34 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
       },
     },
   });
+
+  if (payment === "notchpay") {
+    try {
+      const baseUrl = await getBaseUrl();
+      const { authorizationUrl } = await initializePayment({
+        amount: totalFcfa,
+        reference: order.id,
+        name: customerName.trim(),
+        phone: phone.trim(),
+        email: input.email?.trim() || undefined,
+        description: `Commande TES Agribusiness — ${items.length} article(s)`,
+        callback: `${baseUrl}/api/notchpay/callback`,
+      });
+      return { ok: true, orderId: order.id, paymentUrl: authorizationUrl };
+    } catch (e) {
+      // The order exists but payment could not start; cancel it so the
+      // customer can retry cleanly (their cart is still intact client-side).
+      await prisma.order
+        .update({ where: { id: order.id }, data: { status: "cancelled" } })
+        .catch(() => {});
+      console.error("[notchpay] initialization failed", e);
+      return {
+        ok: false,
+        error:
+          "Le paiement en ligne est momentanément indisponible. Réessayez ou choisissez le paiement à la livraison.",
+      };
+    }
+  }
 
   return { ok: true, orderId: order.id };
 }

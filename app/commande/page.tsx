@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useCart } from "@/lib/cart-context";
 import { createOrder } from "@/lib/actions/orders";
 import { fmtPrice } from "@/lib/format";
@@ -12,12 +12,21 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { items, subtotal, clearCart } = useCart();
   const [mode, setMode] = useState<"pickup" | "delivery">("pickup");
+  const [payMethod, setPayMethod] = useState<"notchpay" | "on_delivery">("notchpay");
   const [storeCity, setStoreCity] = useState(STORES[0].city);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("paiement") === "echec") {
+      setError(
+        "Le paiement n'a pas abouti. Votre panier est conservé — réessayez ou choisissez le paiement à la livraison."
+      );
+    }
+  }, []);
 
   const deliveryFee = mode === "delivery" ? DELIVERY_FEE : 0;
   const total = subtotal + deliveryFee;
@@ -32,9 +41,16 @@ export default function CheckoutPage() {
         deliveryMode: mode,
         storeCity: mode === "pickup" ? storeCity : undefined,
         address: mode === "delivery" ? address : undefined,
+        payment: payMethod,
       });
       if (!result.ok) {
         setError(result.error);
+        return;
+      }
+      if (result.paymentUrl) {
+        // Cart stays intact until NotchPay confirms; the confirmation
+        // page clears it on successful return.
+        window.location.assign(result.paymentUrl);
         return;
       }
       clearCart();
@@ -167,6 +183,53 @@ export default function CheckoutPage() {
                   )}
                 </div>
               </div>
+
+              <div className="rounded-[20px] border border-tes-border bg-tes-bg p-[26px]">
+                <div className="mb-[18px] text-[17px] font-extrabold text-tes-ink">Paiement</div>
+                <div className="flex flex-col gap-3">
+                  <label
+                    className={`flex cursor-pointer items-center gap-3 rounded-2xl border-[1.5px] bg-white px-4 py-3.5 ${
+                      payMethod === "notchpay" ? "border-tes-green" : "border-tes-border-soft"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      checked={payMethod === "notchpay"}
+                      onChange={() => setPayMethod("notchpay")}
+                      className="h-[18px] w-[18px] accent-tes-green"
+                    />
+                    <div className="flex-1">
+                      <div className="text-sm font-bold text-tes-ink">
+                        Payer maintenant (Mobile Money)
+                      </div>
+                      <div className="text-xs text-tes-muted-4">
+                        MTN MoMo, Orange Money… — paiement sécurisé via NotchPay
+                      </div>
+                    </div>
+                    <span className="text-sm font-extrabold text-tes-gold">NotchPay</span>
+                  </label>
+                  <label
+                    className={`flex cursor-pointer items-center gap-3 rounded-2xl border-[1.5px] bg-white px-4 py-3.5 ${
+                      payMethod === "on_delivery" ? "border-tes-green" : "border-tes-border-soft"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      checked={payMethod === "on_delivery"}
+                      onChange={() => setPayMethod("on_delivery")}
+                      className="h-[18px] w-[18px] accent-tes-green"
+                    />
+                    <div className="flex-1">
+                      <div className="text-sm font-bold text-tes-ink">
+                        Payer à la réception
+                      </div>
+                      <div className="text-xs text-tes-muted-4">
+                        Mobile Money ou espèces, à la livraison ou en boutique
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
             </div>
 
             <div className="rounded-[20px] bg-tes-ink p-[26px] lg:sticky lg:top-[24px]">
@@ -203,10 +266,16 @@ export default function CheckoutPage() {
                 disabled={pending}
                 className="mt-[22px] w-full rounded-full bg-tes-green py-4 text-[15px] font-bold text-white transition-opacity disabled:opacity-70"
               >
-                {pending ? "Traitement en cours…" : "Confirmer la commande"}
+                {pending
+                  ? "Traitement en cours…"
+                  : payMethod === "notchpay"
+                    ? "Payer avec NotchPay"
+                    : "Confirmer la commande"}
               </button>
               <div className="mt-3.5 text-center text-[11px] text-[#7e9186]">
-                Paiement Mobile Money ou espèces à la livraison / en boutique.
+                {payMethod === "notchpay"
+                  ? "Vous serez redirigé vers la page de paiement sécurisée NotchPay."
+                  : "Paiement Mobile Money ou espèces à la livraison / en boutique."}
               </div>
               {error && (
                 <div className="mt-3.5 rounded-[10px] border border-[rgba(214,90,73,.4)] bg-[rgba(214,90,73,.15)] px-3 py-2.5 text-xs text-[#f2b8ae]">
