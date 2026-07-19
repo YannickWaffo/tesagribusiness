@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { isAdminEmail } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
 import { fmtPrice } from "@/lib/format";
 import { SignOutButton } from "@/components/SignOutButton";
@@ -28,7 +30,17 @@ export default async function AccountPage() {
               {session.user.name ?? session.user.email}
             </p>
           </div>
-          <SignOutButton />
+          <div className="flex items-center gap-3">
+            {isAdminEmail(session.user.email) && (
+              <Link
+                href="/admin"
+                className="rounded-full bg-tes-ink px-5 py-2.5 text-sm font-bold text-white"
+              >
+                Administration
+              </Link>
+            )}
+            <SignOutButton />
+          </div>
         </div>
 
         <h2 className="mb-3.5 text-lg font-extrabold text-tes-ink">Mes commandes</h2>

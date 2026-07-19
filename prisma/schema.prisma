@@ -67,6 +67,15 @@ model Order {
   @@index([userId])
 }
 
+// Admin-uploaded product photos. Stored in the database because the Web
+// Apps container filesystem is replaced on every deployment.
+model StoredImage {
+  id        String   @id @default(cuid())
+  mime      String
+  data      Bytes
+  createdAt DateTime @default(now())
+}
+
 model OrderItem {
   id        String  @id @default(cuid())
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
