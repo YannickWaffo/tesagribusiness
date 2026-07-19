@@ -33,7 +33,9 @@ export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
             <ProductImage
               src={slide.imageUrl}
               alt={slide.name}
-              className="h-full w-full drop-shadow-[0_24px_30px_rgba(20,40,26,.28)]"
+              eager
+              className="h-full w-full"
+              imgClassName="max-w-[82%] max-h-[82%] object-contain drop-shadow-[0_24px_30px_rgba(20,40,26,.28)]"
             />
           </div>
         ))}

@@ -8,11 +8,13 @@ export function ProductImage({
   alt,
   className,
   imgClassName,
+  eager = false,
 }: {
   src: string;
   alt: string;
   className?: string;
   imgClassName?: string;
+  eager?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -31,7 +33,7 @@ export function ProductImage({
     <img
       src={src}
       alt={alt}
-      loading="lazy"
+      loading={eager ? "eager" : "lazy"}
       onError={() => setFailed(true)}
       className={imgClassName ?? "max-w-full max-h-full object-contain"}
     />

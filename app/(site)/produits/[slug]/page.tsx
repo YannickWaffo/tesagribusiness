@@ -37,7 +37,7 @@ export default async function ProductPage({
       <div className="px-6 pt-[30px] pb-[60px] md:px-11">
         <div className="mx-auto grid max-w-[1240px] grid-cols-1 items-start gap-[50px] lg:grid-cols-2">
           <div className="relative flex h-[420px] items-center justify-center rounded-3xl border border-tes-border bg-tes-bg p-9">
-            <ProductImage src={product.imageUrl} alt={product.name} className="h-full w-full" />
+            <ProductImage src={product.imageUrl} alt={product.name} eager className="h-full w-full" />
             {product.tag && (
               <span className="absolute top-5 left-5 rounded-full bg-tes-gold px-3.5 py-1.5 text-xs font-extrabold text-tes-ink">
                 {product.tag}
