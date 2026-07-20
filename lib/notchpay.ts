@@ -8,6 +8,19 @@ const PUBLIC_KEY =
   process.env.NOTCHPAY_PUBLIC_KEY ??
   "pk.9GrZQhjhjvhBqhFLGmhQUAd9Jcwgne7hGIPqTblvyPhLLM29UTQafFzHJlsixDHgphvabtgpLP0ZZpEOx98KpS1kalxXRG93eaMO5EYiv5PdeNO0yJ7RjQbs0Ao9L";
 
+// These calls run only on the server (a Server Action and the callback
+// route), so authenticate with the secret key when it's configured;
+// fall back to the public key otherwise. NotchPay accepts the private
+// key in Authorization and, for some operations, an X-Grant header.
+const SECRET_KEY = process.env.NOTCHPAY_SECRET_KEY;
+
+function authHeaders(): Record<string, string> {
+  if (SECRET_KEY) {
+    return { Authorization: SECRET_KEY, "X-Grant": PUBLIC_KEY };
+  }
+  return { Authorization: PUBLIC_KEY };
+}
+
 export async function getBaseUrl(): Promise<string> {
   if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/$/, "");
   const h = await headers();
@@ -36,7 +49,7 @@ export async function initializePayment(input: {
   const res = await fetch(`${NOTCHPAY_API}/payments`, {
     method: "POST",
     headers: {
-      Authorization: PUBLIC_KEY,
+      ...authHeaders(),
       "Content-Type": "application/json",
       Accept: "application/json",
     },
@@ -70,7 +83,7 @@ export async function initializePayment(input: {
 
 export async function verifyPayment(reference: string): Promise<NotchPayTransaction> {
   const res = await fetch(`${NOTCHPAY_API}/payments/${encodeURIComponent(reference)}`, {
-    headers: { Authorization: PUBLIC_KEY, Accept: "application/json" },
+    headers: { ...authHeaders(), Accept: "application/json" },
     cache: "no-store",
   });
   const data = (await res.json().catch(() => null)) as {
