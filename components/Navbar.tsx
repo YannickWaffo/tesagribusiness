@@ -52,6 +52,14 @@ export function Navbar() {
             <span className="text-tes-green">FR</span> · EN
           </span>
           <Link
+            href="/compte"
+            aria-label="Mon compte"
+            title="Mon compte"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-tes-bg text-lg text-tes-ink"
+          >
+            👤
+          </Link>
+          <Link
             href="/panier"
             className="relative flex h-10 w-10 items-center justify-center rounded-full bg-tes-bg text-lg text-tes-ink"
           >
@@ -98,6 +106,13 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/compte"
+            onClick={() => setOpen(false)}
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-tes-muted-2"
+          >
+            👤 Mon compte
+          </Link>
           <a
             href={COMPANY.wa}
             target="_blank"
