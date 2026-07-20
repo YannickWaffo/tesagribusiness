@@ -48,6 +48,7 @@ export async function GET(request: Request) {
   await attempt("public_only", { Authorization: publicKey });
   if (secretKey) {
     await attempt("secret_only", { Authorization: secretKey });
+    await attempt("public_auth_secret_grant", { Authorization: publicKey, "X-Grant": secretKey });
     await attempt("secret_with_grant", { Authorization: secretKey, "X-Grant": publicKey });
   }
 
