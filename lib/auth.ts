@@ -4,6 +4,9 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  // The app runs behind Hostinger's reverse proxy; without this NextAuth
+  // rejects every request with UntrustedHost ("server configuration" error).
+  trustHost: true,
   session: { strategy: "jwt" },
   pages: { signIn: "/connexion" },
   providers: [
